@@ -1,0 +1,117 @@
+1. Find the last box of a list.
+e.g. 
+    p01([1,2,3,4])
+    > 4
+def p01(list) do
+  List.last(list)
+end
+
+2. Find the last but one box of a list.
+e.g. 
+    p02([a,b,c,d,e,f,g])
+    > [f,g]
+def p02(list) do
+ Enum.slice(list,-2,length(list)) |> IO.inspect(charlists: :as_lists)
+end
+
+3. Find the K'th element of a list
+e.g.
+    p03([1,2,3,f,b,3,f,s], 4)
+    > f
+def p03(list, n) do
+ Enum.at([:a, :b, :c, :d], n-1)
+end
+
+
+4. Find the number of elements of a list
+e.g.
+    p04([1,2,x,3,4,5])
+    > 6
+Enum.count(list)
+
+5. Reverse a list
+e.g.
+    p05([1,z,2,3,4])
+    > [4,3,2,z,1]
+Enum.reverse(list)
+
+6. Find out whether a list is a palindrome.
+e.g.
+    p06([1,2,3,2,1])
+    > true
+    p06([1,2,3,3,1])
+    > false
+
+7. Flatten a nested list structure
+e.g.
+    p07([a,[b,[c,d],e]])
+    > [a,b,c,d,e]
+List.flatten([:a,[:b,[:c,:d],:e]])
+
+8. Eliminate consecutive duplicates of list elements.
+e.g.
+    p08([a,a,a,a,b,c,c,a,a,d,e,e,e,e)
+    > [a,b,c,d,e]
+Enum.uniq([:a,:a,:a,:a,:b,:c,:c,:a,:a,:d,:e,:e,:e,:e])
+
+9. Pack consecutive duplicates of list elements into sublists.
+e.g.
+    p09([a,a,a,a,b,c,c,a,a,d,e,e,e,e])
+    > [[a,a,a,a],[b],[c,c],[a,a],[d],[e,e,e,e]]
+
+10. Run-length encoding of a list.
+e.g.
+    p10([a,a,a,a,b,c,c,a,a,d,e,e,e,e])
+    > [[a,4],[b,1],[c,2],[a,2],[d,1],[e,4]]
+#!/usr/bin/env elixir
+defmodule Solve do
+
+    def problem(input) do
+        loopy input, [], []
+    end
+
+    defp loopy(input, buffer, list) do
+        # Take the item from the input.
+        case String.next_grapheme(input) do
+            { head, tail } ->
+                # Empty buffer?
+                if buffer == [] do
+                    loopy tail, [ head ], list
+                else
+                    # What is the item in the buffer?
+                    [ previous | _ ] = buffer
+
+                    # The same as before?
+                    if head == previous do
+                        loopy tail, [ head | buffer ], list
+
+                    # Different; move the buffer and init a new one.
+                    else
+                        loopy tail, [ head ], list ++ [ buffer ]
+                    end
+                end
+            
+            :no_grapheme ->
+                # Append the last buffer.
+                list ++ [ buffer ]
+        end
+    end
+
+end
+
+@result = []
+defmodule Expand do
+  def add_elem(el) do
+    @result = [el | @result]
+  end
+  def combine(rows) do
+    for row <- rows do
+      IO.puts(row)
+      [el, times] = row
+
+      Enum.each(0..times, fn i -> add_elem(el) end)
+    end
+
+    @result
+  end
+end

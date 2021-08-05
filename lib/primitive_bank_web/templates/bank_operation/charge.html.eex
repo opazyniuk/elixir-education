@@ -1,0 +1,11 @@
+<%= form_for @conn, Routes.bank_operation_path(@conn, :charge), fn f -> %>
+<label>
+    Username: <%= text_input f, :username %>
+</label>
+
+<label>
+    Amount: <%= number_input f, :amount %>
+</label>
+
+        <%= submit "Charge! :(" %>
+<% end %>

@@ -1,0 +1,4 @@
+<h1>Bank Operations</h1>
+
+<a href="<%= Routes.bank_operation_path(@conn, :new_charge) %>">Charge</a>
+<a href="<%= Routes.bank_operation_path(@conn, :new_add) %>">Add</a>
